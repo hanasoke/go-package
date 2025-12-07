@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"go-package/middleware"
 	"net/http"
 
 	log "github.com/sirupsen/logrus"
@@ -23,10 +24,7 @@ func main() {
 		w.Write(res)
 	}).Methods("GET")
 
-	log.WithFields(log.Fields{
-		"animal": "walrus",
-		"size":   10,
-	}).Info("A group of walrus emerges from the ocean")
+	r.Use(middleware.LoggingMiddleware)
 
 	log.Println("Server running on port 8080")
 	http.ListenAndServe(":8080", r)
