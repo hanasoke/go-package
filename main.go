@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"go-package/config"
 	"go-package/middleware"
 	"net/http"
 
@@ -11,6 +12,9 @@ import (
 )
 
 func main() {
+	config.LoadConfig()
+	config.ConnectDB()
+
 	r := mux.NewRouter()
 	r.HandleFunc("/hello", func(w http.ResponseWriter, r *http.Request) {
 
