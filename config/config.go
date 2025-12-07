@@ -1,5 +1,11 @@
 package config
 
+import (
+	log "github.com/sirupsen/logrus"
+
+	"github.com/spf13/viper"
+)
+
 type Config struct {
 	PORT        string
 	DB_USERNAME string
@@ -10,5 +16,19 @@ type Config struct {
 var ENV *Config
 
 func LoadConfig() {
+	log.Println("Load server configuration")
+	viper.AddConfigPath(".")
+	viper.SetConfigName(".env")
+	viper.SetConfigType("env")
 
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(err)
+	}
+
+	err = viper.Unmarshal(&ENV)
+	viper.Unmarshal(&ENV)
+	if err != nil {
+		panic(err)
+	}
 }
